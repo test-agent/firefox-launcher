@@ -15,5 +15,10 @@
   "dependencies": {
     "mozilla-runner": "0.0.1",
     "ws": "~0.4.31"
+  },
+  "devDependencies": {
+    "mocha": "~1.13.0",
+    "node-static": "~0.7.1",
+    "mozilla-download": "~0.2.1"
   }
 }
