@@ -11,5 +11,9 @@
     "url": "https://github.com/test-agent/firefox-launcher.git"
   },
   "author": "",
-  "license": "Apache2"
+  "license": "Apache2",
+  "dependencies": {
+    "mozilla-runner": "0.0.1",
+    "ws": "~0.4.31"
+  }
 }
