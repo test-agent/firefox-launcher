@@ -1,4 +1,4 @@
 firefox-launcher
 ================
 
-test-agent firefox launcher
+test-agent firefox launcher.
