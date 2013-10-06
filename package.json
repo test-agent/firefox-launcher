@@ -1,10 +1,13 @@
 {
-  "name": "firefox-launcher",
-  "version": "0.0.0",
-  "description": "firefox-launcher ================",
+  "name": "test-agent-firefox-launcher",
+  "version": "0.0.1",
+  "description": "Test agent firefox launcher executable",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
+  },
+  "bin": {
+    "test-agent-firefox-launcher": "./bin/test-agent-firefox-launcher"
   },
   "repository": {
     "type": "git",
@@ -14,7 +17,9 @@
   "license": "Apache2",
   "dependencies": {
     "mozilla-runner": "0.0.1",
-    "ws": "~0.4.31"
+    "ws": "~0.4.31",
+    "commander": "~2.0.0",
+    "mozilla-profile-builder": "~0.3.0"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
