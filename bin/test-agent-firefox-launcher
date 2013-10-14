@@ -1,0 +1,67 @@
+#! /usr/bin/env node
+/**
+TestAgent firefox launcher plugin executable. Handles the details of launching
+the firefox instance.
+
+Why would we have a binary that wraps the launch of other binaries???
+
+  - auto detection of exectuable firefox
+  - better control of logging
+  - unified? spot where we can alter how the binary is launched for firefox
+
+*/
+
+var program = require('commander'),
+    mozrunner = require('mozilla-runner'),
+    mozprofile = require('mozilla-profile-builder'),
+    fs = require('fs');
+
+program.
+  option(
+    '--exec-name <name>',
+     'Name of executable to launch (like b2g-bin or firefox)',
+     'firefox'
+  ).
+  option('--exec <path>', 'Path to the firefox executable').
+  option('--profile <path>', 'path to base profile').
+  parse(process.argv);
+
+if (!program.exec) {
+  console.error('must pass an --exec flag')
+  program.outputHelp();
+  process.exit(1);
+}
+
+if (!fs.existsSync(program.exec)) {
+  console.error(
+    '--exec must be a path on the file system (maybe you need to use which?)'
+  );
+  program.outputHelp();
+  process.exit(1);
+}
+
+// options for the run
+var profileOptions = {};
+var runnerOptions = { argv: program.args };
+
+/**
+Utility for managing the death of the parent (current) process.
+*/
+function handleFirefoxProcess(proc) {
+  process.once('SIGTERM', proc.kill.bind(proc));
+}
+
+mozprofile.create(profileOptions, function(err, instance) {
+  if (err) throw err;
+
+  // set the profile path
+  runnerOptions.profile = instance.path;
+  mozrunner.run(
+    program.execName,
+    program.exec, runnerOptions,
+    function(err, child) {
+      if (err) throw err;
+      handleFirefoxProcess(child);
+    }
+  );
+});
